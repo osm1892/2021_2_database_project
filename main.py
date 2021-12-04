@@ -2,7 +2,7 @@ import os
 from typing import *
 
 import schedule
-from notifypy import Notify
+import win32api
 
 import air_station
 import google_map_api
@@ -229,10 +229,9 @@ def alerter():
     if warning_locations == [] and caution_locations == []:
         return
 
-    notifier = Notify()
-    notifier.title = "오염 경보!!!"
-    notifier.message = f"3단계: {warning_locations}\n4단계: {caution_locations}"
-    notifier.send()
+    alert_title = "오염 경보!!!"
+    alert_message = f"3단계: {warning_locations}\n4단계: {caution_locations}"
+    win32api.MessageBox(0, alert_message, alert_title)
 
 
 def scheduled_function():
