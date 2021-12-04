@@ -214,10 +214,12 @@ def alerter():
     for location in user_locations:
         max_grade = 1
 
-        station = air_station.calc_nearest_station(location['위도'], location['경도'])
-        air_info = air_station.get_air_info(station[0]['측정소명'])
-        kai_grade = air_station.air_value_to_grade(air_info['통합대기환경지수'])
-        max_grade = max(max_grade, kai_grade)
+        stations = air_station.calc_nearby_stations(location['위도'], location['경도'])
+
+        for station in stations:
+            air_info = air_station.get_air_info(station[0]['측정소명'])
+            kai_grade = air_station.air_value_to_grade(air_info['통합대기환경지수'])
+            max_grade = max(max_grade, kai_grade)
 
         if max_grade == 3:
             warning_locations.append(location['별칭'])
